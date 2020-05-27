@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  <script>
+    const chart = LightweightCharts.createChart(document.body, { width: 640, height: 480 });
+    const lineSeriesLong = chart.addLineSeries(
+      {color: '#00FF00', lineWidth: 1}
+    );
+    const lineSeriesShort = chart.addLineSeries(
+      {color: '#FF0000', lineWidth: 1}
+    );
+
+    lineSeriesLong.applyOptions(
+      {priceLineColor: '#00FF00'}
+    );
+
+    lineSeriesShort.applyOptions(
+      {priceLineColor: '#FF0000'}
+    );
+
+    lineSeriesLong.setData([
+        { time: '2020-05-17', value: 60.60 },
+    ]);
+
+    lineSeriesShort.setData([
+        { time: '2020-05-17', value: 39.40 },
+    ]);
+
+    chart.timeScale().fitContent();
+  </script>
+</body>
+</html>
