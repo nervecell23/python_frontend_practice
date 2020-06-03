@@ -6,10 +6,45 @@
   <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
   <script src="./lib/sentimentChart.js"></script>
 
-  <div class="position_sizing_input">
+  <div class="position_sizing_inputs">
     <label for="ticker">Ticker</label>
     <input type="text" id="ticker">
   </div>
+
+  <div class="position_sizing_results">
+    Ticker: <span id="ticker">EUR_USD</span><br>
+    Balance: <span id="balance"></span><br>
+    CurrentATR(14): <span id="atr14"></span><br>
+    Recommend Position Size: <span id="ps"></span><br>
+  </div>
+
+  <script>
+    var url = "http://localhost:5000/position_size"
+    var xhttp = new XMLHttpRequest()
+
+
+    xhttp.onreadystatechange = function() {
+      if(this.readyState == 4 && this.status == 200) {
+        var resultObj = JSON.parse(this.responseText)
+        document.getElementById("ps").innerHTML = resultObj.position_size.toFixed(1)
+        document.getElementById("balance").innerHTML = resultObj.balance.toFixed(2)
+        document.getElementById("atr14").innerHTML = resultObj.atr.toFixed(5)
+      }
+    }
+
+    xhttp.open("GET", url, true)
+    xhttp.send()
+
+  </script>
+
+
+
+<!-- r["balance"] = self.balance
+r["account_number"] = self.ctx.active_account
+r["base_rate"] = self.latest_baserate
+r["base_rate_time"] = self.latest_baserate_time
+r["atr"] = self.current_atr
+r["position_size"] = self.position_size -->
 
 
 </body>
