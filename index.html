@@ -11,6 +11,8 @@
     <input type="text" id="ticker">
     <label for="granularity">Granularity</label>
     <input type="text" id="granularity">
+    <label for="balance-input">Balance</label>
+    <input type="number" id="balance-input">
     <input type="button" id="submit" name="submit" value="Submit">
   </div>
 
@@ -29,8 +31,10 @@
       var url = new URL("http://localhost:5000/position_size")
       var ticker = document.getElementById("ticker").value
       var granularity = document.getElementById("granularity").value
+      var manualBalance = document.getElementById("balance-input").value
       url.searchParams.append("ticker", ticker)
       url.searchParams.append("granularity", granularity)
+      url.searchParams.append("manual_balance", manualBalance)
 
       var xhttp = new XMLHttpRequest()
 
