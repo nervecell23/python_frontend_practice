@@ -9,31 +9,47 @@
   <div class="position_sizing_inputs">
     <label for="ticker">Ticker</label>
     <input type="text" id="ticker">
+    <label for="granularity">Granularity</label>
+    <input type="text" id="granularity">
+    <input type="button" id="submit" name="submit" value="Submit">
   </div>
 
   <div class="position_sizing_results">
-    Ticker: <span id="ticker">EUR_USD</span><br>
+    Target ticker: <span id="target-ticker"></span><br>
     Balance: <span id="balance"></span><br>
+    Baserate ticker: <span id="baserate-ticker"></span><br>
     CurrentATR(14): <span id="atr14"></span><br>
     Recommend Position Size: <span id="ps"></span><br>
   </div>
 
   <script>
-    var url = "http://localhost:5000/position_size"
-    var xhttp = new XMLHttpRequest()
+    document.getElementById("submit").addEventListener("click", process)
 
+    function process(){
+      var url = new URL("http://localhost:5000/position_size")
+      var ticker = document.getElementById("ticker").value
+      var granularity = document.getElementById("granularity").value
+      url.searchParams.append("ticker", ticker)
+      url.searchParams.append("granularity", granularity)
 
-    xhttp.onreadystatechange = function() {
-      if(this.readyState == 4 && this.status == 200) {
-        var resultObj = JSON.parse(this.responseText)
-        document.getElementById("ps").innerHTML = resultObj.position_size.toFixed(1)
-        document.getElementById("balance").innerHTML = resultObj.balance.toFixed(2)
-        document.getElementById("atr14").innerHTML = resultObj.atr.toFixed(5)
+      var xhttp = new XMLHttpRequest()
+
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          var resultObj = JSON.parse(this.responseText)
+          document.getElementById("ps").innerHTML = resultObj.position_size.toFixed(1)
+          document.getElementById("balance").innerHTML = resultObj.balance.toFixed(2)
+          document.getElementById("atr14").innerHTML = resultObj.atr.toFixed(5)
+          document.getElementById("baserate-ticker").innerHTML = resultObj.baserate_ticker
+          document.getElementById("target-ticker").innerHTML = resultObj.target_ticker
+
+        }
       }
-    }
 
-    xhttp.open("GET", url, true)
-    xhttp.send()
+      xhttp.open("GET", url, true)
+      xhttp.send()
+
+    }
 
   </script>
 
